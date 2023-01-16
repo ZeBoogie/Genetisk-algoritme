@@ -148,7 +148,7 @@ void liste(ArrayList<TaskeIndhold> Taske, ArrayList<Integer> Bedste)
   ArrayList<String> Indhold = new ArrayList<String>();
   for (int i = 0; i < Taske.size(); i++)
   {
-    if (Bedste.get(i) == 1)
+    if (Bedste.get(i) != 1)
     {
       Indhold.add(taskeindhold.get(i).name);
     }
