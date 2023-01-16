@@ -1,12 +1,31 @@
-public class Person {
-    public String name;
-    public String value;
-    public String weight;
-    
-    public Person(String _name, String _value, String _weight)
+import java.util.ArrayList;
+
+class Person {
+    public ArrayList<Integer> valueInBag;
+    public ArrayList<Integer> weightInBag;
+    public int fitness;
+    public int totalWeight;
+    public Person(ArrayList<Integer> _thingsInBag, ArrayList<Integer> _weightInBag)
     {
-        name = _name;
-        value = _value;
-        weight = _weight;
+        valueInBag = _thingsInBag;
+        weightInBag = _weightInBag;
+        CalculateFitness();
     }
+    public Person()
+    {
+        valueInBag = new ArrayList<Integer>();
+        weightInBag = new ArrayList<Integer>();
+    }
+    public void CalculateFitness()
+    {
+        int sum = 0;
+        for(int i = 0; i < valueInBag.size(); i++)
+            sum += valueInBag.get(i);
+        fitness = sum;
+        sum = 0;
+        for(int i = 0; i < valueInBag.size(); i++)
+            sum += valueInBag.get(i);
+        totalWeight = sum;
+    }
+
 }
