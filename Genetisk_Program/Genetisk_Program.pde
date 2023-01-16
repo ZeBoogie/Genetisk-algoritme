@@ -7,8 +7,6 @@
   int liste_h=300;
   float kant=5;
   int txtSize=25;
-  ArrayList<Integer> Data = new ArrayList<Integer>();
-  ArrayList<String> taske = new ArrayList<String>();
   ArrayList<Person> person= new ArrayList<Person>();
   ArrayList<Integer> Data = new ArrayList<Integer>();
 ArrayList<TaskeIndhold> taskeindhold = new ArrayList<TaskeIndhold>();
@@ -29,9 +27,6 @@ void setup()
   Data.add(7);
   Data.add(8);
   
- Taske.add("Kage");
- Taske.add("Is");
- Taske.add("Telt");
   
  
  changelist();
@@ -114,7 +109,7 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
       {
         float rand = random(1); //<>//
         if(rand < 0.5) //take from second best
-        {
+        { //<>//
           newPerson.weightInBag.add(secondBestPerson.weightInBag.get(j));
           newPerson.valueInBag.add(secondBestPerson.valueInBag.get(j));
         }
@@ -160,7 +155,7 @@ void liste(ArrayList<Person> Taske, int[] Bedste)
   {
     if (Bedste[i] == 1)
     {
-      Indhold.add(Taske.get(i).name);
+      Indhold.add(taskeindhold.get(i).name);
     }
   }
   text("Taske:",width-graph_h-liste_h+kant,graph_h+txtSize-kant);
@@ -169,7 +164,7 @@ void liste(ArrayList<Person> Taske, int[] Bedste)
     text("- "+Indhold.get(i),width-graph_h-liste_h+kant,graph_h+2*txtSize-kant+i*txtSize);
   }
 }
-*/
+
 void faktorer()
 {
   text("Generation: "+Data.size()+"/300",graph_h+kant,graph_h+txtSize-kant);
