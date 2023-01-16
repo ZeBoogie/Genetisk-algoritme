@@ -1,8 +1,9 @@
 public class Person {
     public String name;
-    public int value;
-    public int weight;
-    public Person(String _name, int _value, int _weight)
+    public String value;
+    public String weight;
+    
+    public Person(String _name, String _value, String _weight)
     {
         name = _name;
         value = _value;
