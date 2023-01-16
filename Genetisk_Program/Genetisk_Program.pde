@@ -18,9 +18,9 @@ void setup()
   A = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 400));
   B = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 400));
   nextGeneration.add(new Person(A, B));
-  println("generation");
   for(int i = 0; i < 10; i++)
   {
+    println("generation");
     for (Person person : nextGeneration)
     {
         println(person.fitness);
@@ -47,7 +47,7 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
   //find top two people
   for (Person person : oldGeneration)
   {
-      if (person.fitness > bestPerson.fitness)
+      if (person.fitness > bestPerson.fitness && person.fitness < 5000)
       {
           secondBestPerson = bestPerson;
           bestPerson = person;
@@ -65,7 +65,17 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
       Person newPerson = new Person();
       for(int j = 0; j < bestPerson.weightInBag.size(); j++)
       {
-        newPerson.weightInBag.add(random(1)>0.5 ? bestPerson.weightInBag.get(j) : secondBestPerson.weightInBag.get(j));
+        float rand = random(1);
+        if(rand < 0.5) //take from second best
+        {
+          newPerson.weightInBag.add(secondBestPerson.weightInBag.get(j));
+          newPerson.valueInBag.add(secondBestPerson.valueInBag.get(j));
+        }
+        if(rand >= 0.5) //take from best
+        {
+          newPerson.weightInBag.add(bestPerson.weightInBag.get(j));
+          newPerson.valueInBag.add(bestPerson.valueInBag.get(j));        
+        }
       }
       newPerson.CalculateFitness();
       newGeneration.add(newPerson);
