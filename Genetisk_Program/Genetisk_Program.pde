@@ -3,16 +3,19 @@
  import java.io.File;  
  import java.io.FileNotFoundException;  
  import java.util.Scanner; 
-int graph_h=10;
-int liste_h=300;
-float kant=5;
-int txtSize=25;
-ArrayList<Integer> Data = new ArrayList<Integer>();
-ArrayList<String> Taske = new ArrayList<String>();
+  int graph_h=10;
+  int liste_h=300;
+  float kant=5;
+  int txtSize=25;
+  ArrayList<Integer> Data = new ArrayList<Integer>();
+  ArrayList<String> taske = new ArrayList<String>();
+  ArrayList<Person> person= new ArrayList<Person>();
+  ArrayList<Integer> Data = new ArrayList<Integer>();
 ArrayList<TaskeIndhold> taskeindhold = new ArrayList<TaskeIndhold>();
 ArrayList<Person> nextGeneration;
 ArrayList<Integer> bestResults = new ArrayList<Integer>();
-
+  int[] Individ = {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1};
+  
 void setup()
 { 
   size(1280,720); // 16:9 ratio
@@ -74,7 +77,7 @@ void draw()
   rect(graph_h,graph_h,width-3*graph_h-liste_h,height-2*graph_h);
   rect(width-graph_h-liste_h,graph_h,liste_h,height-2*graph_h); 
   graphmaking(Data);
-  //liste(person);
+  liste(person, Individ);
   faktorer();
 }
 
@@ -149,22 +152,21 @@ void graphmaking(ArrayList<Integer> Fitness)
   }
 }
 
-/*
-void liste(ArrayList<Person> Taske, ArrayList<Integer> Bedste)
+void liste(ArrayList<Person> Taske, int[] Bedste)
 {
   fill(0);
-  ArrayList<Person> Indhold = Taske;
+  ArrayList<String> Indhold = new ArrayList<String>();
   for (int i = 0; i < Taske.size(); i++)
   {
-    if (Bedste.get(i) == 0)
+    if (Bedste[i] == 1)
     {
-      Indhold(i).remove();
+      Indhold.add(Taske.get(i).name);
     }
   }
   text("Taske:",width-graph_h-liste_h+kant,graph_h+txtSize-kant);
-  for (int i = 0; i < Taske.size(); i++)
+  for (int i = 0; i < Indhold.size(); i++)
   {
-    text("- "+Bedste.get(i).name,width-graph_h-liste_h+kant,graph_h+2*txtSize-kant+i*txtSize);
+    text("- "+Indhold.get(i),width-graph_h-liste_h+kant,graph_h+2*txtSize-kant+i*txtSize);
   }
 }
 */
