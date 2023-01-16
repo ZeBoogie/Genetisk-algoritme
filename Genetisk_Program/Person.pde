@@ -23,8 +23,8 @@ class Person {
             sum += valueInBag.get(i);
         fitness = sum;
         sum = 0;
-        for(int i = 0; i < valueInBag.size(); i++)
-            sum += valueInBag.get(i);
+        for(int i = 0; i < weightInBag.size(); i++)
+            sum += weightInBag.get(i);
         totalWeight = sum;
     }
 
