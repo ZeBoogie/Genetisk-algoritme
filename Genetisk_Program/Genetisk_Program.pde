@@ -3,38 +3,19 @@
  import java.io.File;  
  import java.io.FileNotFoundException;  
  import java.util.Scanner; 
-  int graph_h=10;
-  int liste_h=300;
-  float kant=5;
-  int txtSize=25;
-  ArrayList<Integer> Data = new ArrayList<Integer>();
-  ArrayList<String> Taske = new ArrayList<String>();
-  ArrayList<Person> person= new ArrayList<Person>();
-  int[] Individ = new Array[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,];
-  
+int graph_h=10;
+int liste_h=300;
+float kant=5;
+int txtSize=25;
+ArrayList<Integer> Data = new ArrayList<Integer>();
+ArrayList<String> Taske = new ArrayList<String>();
+ArrayList<TaskeIndhold> taskeindhold = new ArrayList<TaskeIndhold>();
+ArrayList<Person> nextGeneration;
+ArrayList<Integer> bestResults = new ArrayList<Integer>();
+
 void setup()
 { 
   size(1280,720); // 16:9 ratio
-  nextGeneration = new ArrayList<Person>();
-  ArrayList<Integer> A =  new ArrayList<Integer>(Arrays.asList(200, 300, 500, 400));
-  ArrayList<Integer> B = new ArrayList<Integer>(Arrays.asList(300, 100, 200, 400));
-  nextGeneration.add(new Person(A, B));
-  A = new ArrayList<Integer>(Arrays.asList(200, 0, 0, 400));
-  B = new ArrayList<Integer>(Arrays.asList(300, 0, 0, 400));
-  nextGeneration.add(new Person(A, B));
-  A = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 400));
-  B = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 400));
-  nextGeneration.add(new Person(A, B));
-  for(int i = 0; i < 10; i++)
-  {
-    println("generation");
-    for (Person person : nextGeneration)
-    {
-        println(person.fitness);
-    }
-    getNextGeneration(nextGeneration);
-    
-  }
   noStroke();
   textSize(txtSize);
   Data.add(2);
@@ -51,6 +32,37 @@ void setup()
   
  
  changelist();
+  //create first generation
+  nextGeneration = new ArrayList<Person>();
+  for (int i = 0; i < 100; i++)
+  {
+    Person newPerson = new Person();
+    for(int j = 0; j < taskeindhold.size(); j++)
+    {
+      float rand = random(1);
+      if(rand < 0.5) //take from second best
+      {
+        newPerson.weightInBag.add(0);
+        newPerson.valueInBag.add(0);
+      }
+      if(rand >= 0.5) //take from best
+      {
+        newPerson.weightInBag.add(taskeindhold.get(j).weight);
+        newPerson.valueInBag.add(taskeindhold.get(j).value);        
+      }
+    }
+    newPerson.CalculateFitness();
+    nextGeneration.add(newPerson);
+  }
+  for(int i = 0; i < 200; i++)
+  {
+    getNextGeneration(nextGeneration);
+  }
+  for(int goodresult : bestResults)
+  {
+    println(goodresult);
+  }
+
 }
  
 
@@ -62,7 +74,7 @@ void draw()
   rect(graph_h,graph_h,width-3*graph_h-liste_h,height-2*graph_h);
   rect(width-graph_h-liste_h,graph_h,liste_h,height-2*graph_h); 
   graphmaking(Data);
-  liste(person);
+  //liste(person);
   faktorer();
 }
 
@@ -83,11 +95,12 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
           secondBestPerson = bestPerson;
           bestPerson = person;
       }
-      else if(person.fitness > secondBestPerson.fitness)
+      else if(person.fitness > secondBestPerson.fitness && person.fitness < 5000)
       {
           secondBestPerson = person;
       }
   }
+  bestResults.add(bestPerson.fitness);
 
 
   for (int i = 0; i < oldGeneration.size(); i++) 
@@ -96,7 +109,7 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
       Person newPerson = new Person();
       for(int j = 0; j < bestPerson.weightInBag.size(); j++)
       {
-        float rand = random(1);
+        float rand = random(1); //<>//
         if(rand < 0.5) //take from second best
         {
           newPerson.weightInBag.add(secondBestPerson.weightInBag.get(j));
@@ -109,7 +122,14 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
         }
         if(rand > 0.975 || rand < 0.025)
         {
-          
+          if(newPerson.weightInBag.get(j) == 0)
+          {
+            newPerson.weightInBag.set(j,bestPerson.weightInBag.get(j));
+          }
+          else
+          {
+            newPerson.weightInBag.set(j,0);
+          }
         }
       }
       newPerson.CalculateFitness();
@@ -129,7 +149,8 @@ void graphmaking(ArrayList<Integer> Fitness)
   }
 }
 
-void liste(ArrayList<Person> Taske, ArrayList<int> Bedste)
+/*
+void liste(ArrayList<Person> Taske, ArrayList<Integer> Bedste)
 {
   fill(0);
   ArrayList<Person> Indhold = Taske;
@@ -146,7 +167,7 @@ void liste(ArrayList<Person> Taske, ArrayList<int> Bedste)
     text("- "+Bedste.get(i).name,width-graph_h-liste_h+kant,graph_h+2*txtSize-kant+i*txtSize);
   }
 }
-
+*/
 void faktorer()
 {
   text("Generation: "+Data.size()+"/300",graph_h+kant,graph_h+txtSize-kant);
@@ -161,7 +182,7 @@ void changelist()
   {
     
     String[] svendole = split(lines[i], " ");
-    person.add(new Person(svendole[0], svendole[1], svendole[2]));
+    taskeindhold.add(new TaskeIndhold(svendole[0], Integer.parseInt(svendole[1]), Integer.parseInt(svendole[2])));
   }
   
          /*
