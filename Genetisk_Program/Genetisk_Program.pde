@@ -9,6 +9,7 @@
   int txtSize=25;
   ArrayList<Person> person= new ArrayList<Person>();
   ArrayList<Integer> Data = new ArrayList<Integer>();
+Person overallBestPerson = new Person(); 
 ArrayList<TaskeIndhold> taskeindhold = new ArrayList<TaskeIndhold>();
 ArrayList<Person> nextGeneration;
 ArrayList<Integer> bestResults = new ArrayList<Integer>();
@@ -46,7 +47,7 @@ void setup()
     newPerson.CalculateFitness();
     nextGeneration.add(newPerson);
   }
-  for(int i = 0; i < 100; i++)
+  for(int i = 0; i < 1000; i++)
   {
     getNextGeneration(nextGeneration);
   }
@@ -67,7 +68,7 @@ void draw()
   rect(graph_h,graph_h,width-3*graph_h-liste_h,height-2*graph_h);
   rect(width-graph_h-liste_h,graph_h,liste_h,height-2*graph_h); 
   graphmaking(Data);
-  liste(taskeindhold, bestResults);
+  liste(taskeindhold, overallBestPerson.weightInBag);
   faktorer();
 }
 
@@ -90,10 +91,14 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
       }
       else if(person.fitness > secondBestPerson.fitness && person.totalWeight < 5000)
       {
-          secondBestPerson = person;
+        secondBestPerson = person;
       }
   }
   bestResults.add(bestPerson.fitness); //<>//
+  if (bestPerson.fitness > overallBestPerson.fitness)
+  {
+    overallBestPerson = bestPerson;
+  }
 
 
   for (int i = 0; i < oldGeneration.size(); i++) 
@@ -104,12 +109,12 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
       {
         float rand = random(1); //<>//
         if(rand < 0.5) //take from second best
-        {
+        { //<>//
           newPerson.weightInBag.add(secondBestPerson.weightInBag.get(j));
           newPerson.valueInBag.add(secondBestPerson.valueInBag.get(j));
         }
         if(rand >= 0.5) //take from best
-        { //<>//
+        {
           newPerson.weightInBag.add(bestPerson.weightInBag.get(j));
           newPerson.valueInBag.add(bestPerson.valueInBag.get(j));        
         }
