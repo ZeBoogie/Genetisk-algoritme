@@ -113,7 +113,7 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
           newPerson.weightInBag.add(bestPerson.weightInBag.get(j));
           newPerson.valueInBag.add(bestPerson.valueInBag.get(j));        
         }
-        if(rand > 0.9 || rand < 0.1)
+        if(rand > 0.7 || rand < 0.3)
         {
           if(newPerson.weightInBag.get(j) == 0)
           {
