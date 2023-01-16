@@ -35,7 +35,6 @@ void setup()
     getNextGeneration(nextGeneration);
     
   }
-  size(1000,600);
   noStroke();
   textSize(txtSize);
   Data.add(2);
@@ -105,12 +104,16 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
           newPerson.weightInBag.add(bestPerson.weightInBag.get(j));
           newPerson.valueInBag.add(bestPerson.valueInBag.get(j));        
         }
+        if(rand > 0.975 || rand < 0.025)
+        {
+          
+        }
       }
       newPerson.CalculateFitness();
       newGeneration.add(newPerson);
   }
   nextGeneration = newGeneration;
-
+}
 
 void graphmaking(ArrayList<Integer> Fitness)
 {
