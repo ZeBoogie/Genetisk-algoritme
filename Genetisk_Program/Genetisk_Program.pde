@@ -4,9 +4,9 @@
  import java.io.FileNotFoundException;  
  import java.util.Scanner; 
   int graph_h=10;
-  int liste_h=300;
+  int liste_h=350;
   float kant=5;
-  int txtSize=25;
+  int txtSize=20;
   ArrayList<Person> person= new ArrayList<Person>();
   ArrayList<Integer> Data = new ArrayList<Integer>();
 Person overallBestPerson = new Person(); 
@@ -17,7 +17,7 @@ int[] Individ = {0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,1};
   
 void setup()
 { 
-  size(1000,600); // 16:9 ratio
+  size(1600,900); // 16:9 ratio
   noStroke();
   textSize(txtSize);
   
@@ -27,7 +27,7 @@ void setup()
  changelist();
   //create first generation
   nextGeneration = new ArrayList<Person>();
-  for (int i = 0; i < 100; i++)
+  for (int i = 0; i < 40; i++)
   {
     Person newPerson = new Person();
     for(int j = 0; j < taskeindhold.size(); j++)
@@ -68,7 +68,7 @@ void draw()
   rect(graph_h,graph_h,width-3*graph_h-liste_h,height-2*graph_h);
   rect(width-graph_h-liste_h,graph_h,liste_h,height-2*graph_h); 
   graphmaking(Data);
-  liste(taskeindhold, overallBestPerson.weightInBag);
+  liste(taskeindhold, overallBestPerson);
   faktorer();
 }
 
@@ -109,7 +109,7 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
       {
         float rand = random(1); //<>//
         if(rand < 0.5) //take from second best
-        { //<>//
+        { //<>// //<>//
           newPerson.weightInBag.add(secondBestPerson.weightInBag.get(j));
           newPerson.valueInBag.add(secondBestPerson.valueInBag.get(j));
         }
@@ -118,15 +118,17 @@ void getNextGeneration(ArrayList<Person> oldGeneration)
           newPerson.weightInBag.add(bestPerson.weightInBag.get(j));
           newPerson.valueInBag.add(bestPerson.valueInBag.get(j));        
         }
-        if(rand > 0.7 || rand < 0.3)
+        if(rand > 0.975 || rand < 0.025)
         {
           if(newPerson.weightInBag.get(j) == 0)
           {
-            newPerson.weightInBag.set(j,bestPerson.weightInBag.get(j));
+            newPerson.weightInBag.set(j, taskeindhold.get(j).weight);
+            newPerson.valueInBag.set(j, taskeindhold.get(j).value);
           }
           else
           {
             newPerson.weightInBag.set(j,0);
+            newPerson.valueInBag.set(j,0);
           }
         }
       }
@@ -147,28 +149,28 @@ void graphmaking(ArrayList<Integer> Fitness)
   }
 }
 
-void liste(ArrayList<TaskeIndhold> Taske, ArrayList<Integer> Bedste)
+void liste(ArrayList<TaskeIndhold> Taske, Person Bedste)
 {
   fill(0);
-  ArrayList<String> Indhold = new ArrayList<String>();
-  for (int i = 0; i < Taske.size(); i++)
-  {
-    if (Bedste.get(i) != 1)
-    {
-      Indhold.add(taskeindhold.get(i).name);
-    }
-  }
   text("Taske:",width-graph_h-liste_h+kant,graph_h+txtSize-kant);
-  for (int i = 0; i < Indhold.size(); i++) //<>//
+  
+  
+  int j = 0;
+  for (int i = 0; i < Bedste.valueInBag.size(); i++) //<>//
   {
-    text("- "+Indhold.get(i),width-graph_h-liste_h+kant,graph_h+2*txtSize-kant+i*txtSize);
+    if (Bedste.valueInBag.get(i) != 0)
+    {
+      
+      text("- "+ taskeindhold.get(i).name + " - weight: " + taskeindhold.get(i).weight, width-graph_h-liste_h+kant,graph_h+2*txtSize-kant+j*txtSize);
+      j++;
+    }
   }
 }
 
 void faktorer()
 {
-  text("Generation: "+Data.size()+"/300",graph_h+kant,graph_h+txtSize-kant);
-  text("Maks fitness: "+"ole",graph_h+kant,graph_h+2*txtSize-kant);
+  text("Generationer: " + Data.size(),graph_h+kant,graph_h+txtSize-kant);
+  text("Maks fitness: "+ overallBestPerson.fitness,graph_h+kant,graph_h+2*txtSize-kant);
 }
 
 void changelist()
