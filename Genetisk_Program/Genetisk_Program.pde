@@ -176,21 +176,4 @@ void changelist()
     String[] svendole = split(lines[i], " ");
     taskeindhold.add(new TaskeIndhold(svendole[0], Integer.parseInt(svendole[1]), Integer.parseInt(svendole[2])));
   }
-  
-         /*
-        try {
-            File myObj = new File("data.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
-                
-      }
-      myReader.close();
-    } 
-        catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }*/
-
 }
