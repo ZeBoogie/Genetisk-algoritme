@@ -153,7 +153,7 @@ void liste(ArrayList<TaskeIndhold> Taske, ArrayList<Integer> Bedste)
   ArrayList<String> Indhold = new ArrayList<String>();
   for (int i = 0; i < Taske.size(); i++)
   {
-    if (Bedste.get(i) == 1)
+    if (Bedste.get(i) != 1)
     {
       Indhold.add(taskeindhold.get(i).name);
     }
@@ -181,21 +181,4 @@ void changelist()
     String[] svendole = split(lines[i], " ");
     taskeindhold.add(new TaskeIndhold(svendole[0], Integer.parseInt(svendole[1]), Integer.parseInt(svendole[2])));
   }
-  
-         /*
-        try {
-            File myObj = new File("data.txt");
-            Scanner myReader = new Scanner(myObj);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
-                
-      }
-      myReader.close();
-    } 
-        catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }*/
-
 }
